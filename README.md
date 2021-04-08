@@ -1,12 +1,12 @@
 # Earthquake Infomation Tools
-*Yahoo JAPANの地震情報を色分けして見やすくしてみました*
+*Yahoo JAPANの地震情報を色分けして見やすくしてみました。*
 
 ## 使い方
 `python3 EarthQuakeInfomationTool.py`
 
 `python3 ColorEarthQuakeHistory.py`
 
-*「EarthQuakeInfomationTool」は地震情報だけで*
+*「EarthQuakeInfomationTool」は地震情報だけで、*
 
 *「ColorEarthQuakeHistory」は地震情報と過去の地震情報を色分けをしています*
 
