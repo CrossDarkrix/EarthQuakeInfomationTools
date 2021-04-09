@@ -10,7 +10,7 @@
 
 *「ColorEarthQuakeHistory」は地震情報と過去の地震情報を色分けをしています*
 ## 必要なモジュール
-*colorama, BeautifulSoup4, urllib3*
+*colorama, BeautifulSoup4, urllib3, html5lib*
 
 ## 開発秘話
 *当初は軽い気持ちで「地震情報を文字列化できたらいいや」と作り始めました。*
