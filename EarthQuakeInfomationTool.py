@@ -14,11 +14,11 @@ def init():
 	print("Version: {}".format(version))
 
 def main():
-	LINK = "https://typhoon.yahoo.co.jp/weather/earthquake/"  # YahooJapan Weather Link
-	user_agent = 'Mozilla/5.0 (Linux; Android 7.1.2; en-la; AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 YJApp-ANDROID jp.co.yahoo.android.yjtop/13.91.1' # UserAgent(Android8.0 YahooApp)
-	response = urllib.request.urlopen(urllib.request.Request(LINK, headers={'User-Agent': user_agent})) # Get HTML from YahooJapan
+	LINK = "https://typhoon.yahoo.co.jp/weather/earthquake/"
+	user_agent = 'Mozilla/5.0 (Linux; Android 7.1.2; en-la; AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 YJApp-ANDROID jp.co.yahoo.android.yjtop/13.91.1'
+	response = urllib.request.urlopen(urllib.request.Request(LINK, headers={'User-Agent': user_agent}))
 	URL = BeautifulSoup(response,features="html5lib")
-	RAW = URL.select("div.eqDetail") # Selecting div Tag
+	RAW = URL.select("div.eqDetail")
 
 	# Replace Words
 	replaceword0 = '       '
