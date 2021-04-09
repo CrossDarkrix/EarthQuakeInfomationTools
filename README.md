@@ -9,6 +9,8 @@
 *「EarthQuakeInfomationTool」は地震情報と色分けだけで、*
 
 *「ColorEarthQuakeHistory」は地震情報と過去の地震情報を色分けをしています*
+## Requirement
+*colorama, BeautifulSoup4, urllib3*
 
 ## 開発秘話
 *当初は軽い気持ちで「地震情報を文字列化できたらいいや」と作り始めました。*
