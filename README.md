@@ -6,7 +6,7 @@
 
 `python3 ColorEarthQuakeHistory.py`
 
-*「EarthQuakeInfomationTool」は地震情報だけで、*
+*「EarthQuakeInfomationTool」は地震情報と色分けだけで、*
 
 *「ColorEarthQuakeHistory」は地震情報と過去の地震情報を色分けをしています*
 
