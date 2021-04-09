@@ -9,7 +9,7 @@
 *「EarthQuakeInfomationTool」は地震情報と色分けだけで、*
 
 *「ColorEarthQuakeHistory」は地震情報と過去の地震情報を色分けをしています*
-## Requirement
+## 必要なモジュール
 *colorama, BeautifulSoup4, urllib3*
 
 ## 開発秘話
