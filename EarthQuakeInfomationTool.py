@@ -43,6 +43,7 @@ def replace_word(EqData):
     replaceword28 = ' \n'
     replaceword29 = ': '
     replaceword30 = ':'
+    replaceword31 = '\n '
 
     replacedword0 = ''
     replacedword1 = '・発生時刻: '
@@ -61,6 +62,7 @@ def replace_word(EqData):
     replacedword14 = '\n'
     replacedword15 = ':'
     replacedword16 = ': '
+    replacedword17 = '\n'
     
     reps1 = EqData.replace(replaceword0,replacedword1)
     reps2 = reps1.replace(replaceword1,replacedword2)
@@ -93,8 +95,9 @@ def replace_word(EqData):
     reps29 = reps28.replace(replaceword28,replacedword14)
     reps30 = reps29.replace(replaceword29,replacedword15)
     reps31 = reps30.replace(replaceword30,replacedword16)
+    reps32 = reps31.replace(replaceword31,replacedword17)
     
-    return reps31
+    return reps32
 
 def main():
     Yahoo_URL = "https://typhoon.yahoo.co.jp/weather/earthquake/"
