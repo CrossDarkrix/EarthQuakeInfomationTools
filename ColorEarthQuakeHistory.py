@@ -39,7 +39,7 @@ def main():
         if _esc[_p].split(' ')[1] == '7':
             _c = colorama.Fore.WHITE + colorama.Back.MAGENTA
         if _esc[_p].split(' ')[1] == '---':
-            _esc[_p].replace('---', '不明')
+            _esc[_p] = _esc[_p].replace('---', '不明')
             _c = colorama.Fore.WHITE + colorama.Back.BLACK
         print('{}{}\n{}\n{}{}'.format(_c, _es[_p], _et[_p], _esc[_p],(colorama.Fore.RESET + colorama.Back.RESET)))
 
