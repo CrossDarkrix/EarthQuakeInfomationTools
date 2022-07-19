@@ -21,27 +21,28 @@ def main():
     console.clear()
 
     for _p in range(10):
-        if _esc[_p].split(' ')[1] == '1':
+        if _esc[_p].split(' ')[1].split(')')[0] == '1':
             console.set_color(255, 255, 255) # White
-        if _esc[_p].split(' ')[1] == '2':
+        if _esc[_p].split(' ')[1].split(')')[0] == '2':
             console.set_color(0, 10, 255) # Blue
-        if _esc[_p].split(' ')[1] == '3':
+        if _esc[_p].split(' ')[1].split(')')[0] == '3':
             console.set_color(0, 102, 0) # Green
-        if _esc[_p].split(' ')[1] == '4':
+        if _esc[_p].split(' ')[1].split(')')[0] == '4':
             console.set_color(255, 10, 0) # Yellow
-        if _esc[_p].split(' ')[1] == '5弱':
+        if _esc[_p].split(' ')[1].split(')')[0] == '5弱':
             console.set_color(255, 1, 0) # Orange
-        if _esc[_p].split(' ')[1] == '5強':
+        if _esc[_p].split(' ')[1].split(')')[0] == '5強':
             console.set_color(100, 80, 0) # Light Orange
-        if _esc[_p].split(' ')[1] == '6弱':
+        if _esc[_p].split(' ')[1].split(')')[0] == '6弱':
             console.set_color(255, 1 , 255) # Pink
-        if _esc[_p].split(' ')[1] == '6強':
+        if _esc[_p].split(' ')[1].split(')')[0] == '6強':
             console.set_color(255, 0, 0) # Red
-        if _esc[_p].split(' ')[1] == '7':
+        if _esc[_p].split(' ')[1].split(')')[0] == '7':
             console.set_color(255, 0, 255) # Magenta
-        if _esc[_p].split(' ')[1] == '---':
-            _esc[_p] = _esc[_p].replace('---', '不明')
+        if _esc[_p].split(' ')[1].split(')')[0] == '---':
+            _esc[_p] = _esc[_p].split(')')[0].replace('---', '不明')
             console.set_color(255, 255, 255) # White
+        _esc[_p] = _esc[_p].split(' ')[0] + ' ' +_esc[_p].split(' ')[1].split(')')[0] + ' ' + ' '.join(_esc[_p].split(' ')[2:])
         print('{}\n{}\n{}'.format(_es[_p], _et[_p], _esc[_p]))
         console.set_color()
 

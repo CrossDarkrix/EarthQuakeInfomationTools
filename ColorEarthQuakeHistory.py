@@ -20,27 +20,28 @@ def main():
     colorama.init()
 
     for _p in range(10):
-        if _esc[_p].split(' ')[1] == '1':
+        if _esc[_p].split(' ')[1].split(')')[0] == '1':
             _c = colorama.Fore.WHITE + colorama.Back.BLACK
-        if _esc[_p].split(' ')[1] == '2':
+        if _esc[_p].split(' ')[1].split(')')[0] == '2':
             _c = colorama.Fore.WHITE + colorama.Back.BLUE
-        if _esc[_p].split(' ')[1] == '3':
+        if _esc[_p].split(' ')[1].split(')')[0] == '3':
             _c = colorama.Fore.BLACK + colorama.Back.GREEN
-        if _esc[_p].split(' ')[1] == '4':
+        if _esc[_p].split(' ')[1].split(')')[0] == '4':
             _c = colorama.Fore.BLACK + colorama.Back.YELLOW
-        if _esc[_p].split(' ')[1] == '5弱':
+        if _esc[_p].split(' ')[1].split(')')[0] == '5弱':
             _c = colorama.Fore.WHITE + colorama.Back.RED
-        if _esc[_p].split(' ')[1] == '5強':
+        if _esc[_p].split(' ')[1].split(')')[0] == '5強':
             _c = colorama.Fore.WHITE + colorama.Back.RED
-        if _esc[_p].split(' ')[1] == '6弱':
+        if _esc[_p].split(' ')[1].split(')')[0] == '6弱':
             _c = colorama.Fore.WHITE + colorama.Back.RED
-        if _esc[_p].split(' ')[1] == '6強':
+        if _esc[_p].split(' ')[1].split(')')[0] == '6強':
             _c = colorama.Fore.WHITE + colorama.Back.RED
-        if _esc[_p].split(' ')[1] == '7':
+        if _esc[_p].split(' ')[1].split(')')[0] == '7':
             _c = colorama.Fore.WHITE + colorama.Back.MAGENTA
-        if _esc[_p].split(' ')[1] == '---':
-            _esc[_p] = _esc[_p].replace('---', '不明')
+        if _esc[_p].split(' ')[1].split(')')[0] == '---':
+            _esc[_p] = _esc[_p].split(')')[0].replace('---', '不明')
             _c = colorama.Fore.WHITE + colorama.Back.BLACK
+        _esc[_p] = _esc[_p].split(' ')[0] + ' ' +_esc[_p].split(' ')[1].split(')')[0] + ' ' + ' '.join(_esc[_p].split(' ')[2:])
         print('{}{}\n{}\n{}{}'.format(_c, _es[_p], _et[_p], _esc[_p],(colorama.Fore.RESET + colorama.Back.RESET)))
 
 if __name__ == '__main__':

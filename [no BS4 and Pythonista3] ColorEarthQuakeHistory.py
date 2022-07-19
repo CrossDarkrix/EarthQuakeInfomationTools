@@ -6,7 +6,7 @@ Version: 1.1b
 Author: DarkRix
 """
 
-import colorama, re, urllib.request
+import console, re, urllib.request
     
 def _tg(source, _tag1, _tag2, _tag3):
     _hd = source.read().decode() # htmlの読み込み
@@ -33,33 +33,33 @@ def main():
     _es = _ht[0] # ddタグのクラス名「subText」の中身をリスト形式で出力
     _et = _ht[1] # dtタグのクラス名「title」の中身をリスト形式で出力
     _esc = _ht[2] # ddタグのクラス名「eqScale」の中身をリスト形式で出力
-
-    colorama.init() # カラーコードの初期化
+    console.clear()
 
     for _p in range(10):
         if _esc[_p].split(' ')[1].split(')')[0] == '1': # 震度１なら黒く表示
-            _c = colorama.Fore.WHITE + colorama.Back.BLACK
+            console.set_color(255, 255, 255) # White
         if _esc[_p].split(' ')[1].split(')')[0] == '2': # 震度２なら青く表示
-            _c = colorama.Fore.WHITE + colorama.Back.BLUE
+            console.set_color(0, 10, 255) # Blue
         if _esc[_p].split(' ')[1].split(')')[0] == '3': # 震度３なら緑に表示
-            _c = colorama.Fore.BLACK + colorama.Back.GREEN
+            console.set_color(0, 102, 0) # Green
         if _esc[_p].split(' ')[1].split(')')[0] == '4': # 震度４なら黄色く表示
-            _c = colorama.Fore.BLACK + colorama.Back.YELLOW
+            console.set_color(255, 10, 0) # Yellow
         if _esc[_p].split(' ')[1].split(')')[0] == '5弱': # 震度５弱なら赤く表示
-            _c = colorama.Fore.WHITE + colorama.Back.RED
+            console.set_color(255, 1, 0) # Orange
         if _esc[_p].split(' ')[1].split(')')[0] == '5強': # 震度５強なら赤く表示
-            _c = colorama.Fore.WHITE + colorama.Back.RED
+            console.set_color(100, 80, 0) # Light Orange
         if _esc[_p].split(' ')[1].split(')')[0] == '6弱': # 震度６弱なら赤く表示
-            _c = colorama.Fore.WHITE + colorama.Back.RED
+            console.set_color(255, 1 , 255) # Pink
         if _esc[_p].split(' ')[1].split(')')[0] == '6強': # 震度６強なら赤く表示
-            _c = colorama.Fore.WHITE + colorama.Back.RED
+            console.set_color(255, 0, 0) # Red
         if _esc[_p].split(' ')[1].split(')')[0] == '7': # 震度７なら紫色に表示
-            _c = colorama.Fore.WHITE + colorama.Back.MAGENTA
+            console.set_color(255, 0, 255) # Magenta
         if _esc[_p].split(' ')[1].split(')')[0] == '---': # 震度不明なら黒く表示
             _esc[_p] = _esc[_p].split(')')[0].replace('---', '不明')
-            _c = colorama.Fore.WHITE + colorama.Back.BLACK
+            console.set_color(255, 255, 255) # White
         _esc[_p] = _esc[_p].split(' ')[0] + ' ' +_esc[_p].split(' ')[1].split(')')[0] + ' ' + ' '.join(_esc[_p].split(' ')[2:])
-        print('{}{}\n{}\n{}{}'.format(_c, _es[_p], _et[_p], _esc[_p],(colorama.Fore.RESET + colorama.Back.RESET))) # 発生時刻、震源地、最大震度を表示しつつ、色情報を元の色に戻す
+        print('{}\n{}\n{}'.format(_es[_p], _et[_p], _esc[_p])) # 発生時刻、震源地、最大震度を表示しつつ、色情報を元の色に戻す
+        console.set_color()
 
 if __name__ == '__main__':
     main()
