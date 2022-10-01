@@ -23,7 +23,7 @@ def _tg(source, _tag1, _tag2, _tag3):
     _tt = [re.sub('<em (.+)>', '', _y) for _y in _tb] # 条件で検索し、emタグを整形
     _tc = '#'.join(_tt).replace('#最', '),最') # 「最大震度」の「最」の先頭に＃をつけてから「),最」に整形
     _te = ''.join(_tc.split('#')).replace('M', ' (M').split(',') # ＃で分割し、Mを「 (M」にして「,」で分割
-    _tn3 = [_yt.replace(_yt[-1], _yt[-1] + ')') if not ')' in _yt else _yt for _yt in _te] # 後ろに「)」が付いていない文字列に「)」を付ける
+    _tn3 = [_yt.replace(_yt[-1], _yt[-1] + ')').replace(').','.') if not ')' in _yt else _yt for _yt in _te] # 後ろに「)」が付いていない文字列に「)」を付ける
     return _tn1, _tn2, _tn3
 
 def main():
