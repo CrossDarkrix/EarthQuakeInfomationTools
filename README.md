@@ -1,7 +1,7 @@
 # Earthquake Infomation Tools
 Yahoo天気から地震情報だけを取得して色分けするツール
 
-<img src="https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/ColorEarthQuakeHistory.png" alt="ColorEarthQuakeHistory" width="200" height="300"><img src="https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/EarthQuakeInfomationTool.png" alt="EarthQuakeInfomationTool" width="400" height="250">
+<a href="https://github.com/CrossDarkrix/EarthQuakeInfomationTools"><img src="https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/ColorEarthQuakeHistory.png" alt="ColorEarthQuakeHistory" width="200" height="300"></a><a href="https://github.com/CrossDarkrix/EarthQuakeInfomationTools"><img src="https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/EarthQuakeInfomationTool.png" alt="EarthQuakeInfomationTool" width="400" height="250"></a>
 
 ## 使い方
 
