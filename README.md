@@ -1,6 +1,8 @@
 # Earthquake Infomation Tools
 Yahoo天気から地震情報だけを取得して色分けするツール
 
+![EarthQuakeInfomationTool](https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/EarthQuakeInfomationTool.png)
+![ColorEarthQuakeHistory](https://raw.githubusercontent.com/CrossDarkrix/EarthQuakeInfomationTools/main/screenshots/ColorEarthQuakeHistory.png)
 ## 使い方
 
 お使いの環境がPythonista3か普通のPython3かで違いますが、基本的には以下の通りに実行します。
