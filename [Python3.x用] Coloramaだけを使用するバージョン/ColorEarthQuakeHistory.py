@@ -57,7 +57,7 @@ def main():
         if _esc[_p].split(' ')[1].split(')')[0] == '7': # 震度７なら紫色に表示
             _c = colorama.Fore.WHITE + colorama.Back.MAGENTA
         if _esc[_p].split(' ')[1].split(')')[0] == '---': # 震度不明なら黒く表示
-            _esc[_p] = _esc[_p].split(')')[0].replace('---', '不明')
+            _esc[_p] = _esc[_p].replace('---', '不明')
             _c = colorama.Fore.WHITE + colorama.Back.BLACK
         _esc[_p] = _esc[_p].split(' ')[0] + ' ' +_esc[_p].split(' ')[1].split(')')[0] + ' ' + ' '.join(_esc[_p].split(' ')[2:])
         print('{}{}\n{}\n{}{}'.format(_c, _es[_p], _et[_p], _esc[_p],(colorama.Fore.RESET + colorama.Back.RESET))) # 発生時刻、震源地、最大震度を表示しつつ、色情報を元の色に戻す
