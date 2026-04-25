@@ -1,78 +1,117 @@
-# -*- coding: utf-8 -*-
-"""
-Colorful Getting Earthquake Infomation from YahooJapan
-Version: 1.1
-Author: DarkRix
-"""
+import colorama
+import re
+import urllib.request
 
-import colorama, re, urllib.request
+class Earthquake:
+    def __init__(self):
+        self.URL = "https://typhoon.yahoo.co.jp/weather/earthquake/"
+        self.UA = 'Mozilla/5.0 (Linux; U; Android 8.0; en-la; Nexus Build/JPG991) AppleWebKit/511.2 (KHTML, like Gecko) Version/5.0 Mobile/11S444 YJApp-ANDROID jp.co.yahoo.android.yjtop/4.01.1.5' # Android端末のYahooアプリに偽装
+        html = self.fetch_html()
+        block = self.extract_block(html)
+        text = self.clean_text(block)
+        self.data = self.extract_data(text)
+        self.colored()
 
-def _tg(source, tag):
-    _hd = source.read().decode() # htmlの読み込み
-    _ht = tag.split('.')[0] # 読み込むタグの選択
-    _tn = '.'.join(tag.split('.')[1:]) # 読み込むクラスの選択
-    _tgi = ''.join(_hd.split('<{} class="{}">'.format(_ht, _tn))[1:]) # 読み込んだタグとそのクラスで分割
-    _tgs = _tgi.split('</{}>'.format(_ht))[0].replace('  ','').split('<{} '.format(_ht))[0] # 読み込んだタグの終わりで分割し、整形
-    _tga = re.sub('(\n\n)', '', _tgs) # 改行を一括削除
-    _tgt = re.sub('<!.+\n', '', _tga).replace('><', '>\n<') # 整形
-    return _tgt
+    def fetch_html(self):
+        req = urllib.request.Request(self.URL, headers={"User-Agent": self.UA})
+        with urllib.request.urlopen(req) as res:
+            html = res.read().decode("utf-8", errors="ignore")
+        return html
 
-def _r(d):
-    _r0 = '発生時刻'
-    _r1 = '震源地'
-    _r2 = '最大震度'
-    _r3 = 'マグニチュード'
-    _r4 = '深さ'
-    _r5 = '緯度/経度'
-    _r6 = '情報'
-    _rd0 = '・発生時刻: '
-    _rd1 = '\n・震源地: '
-    _rd2 = '\n・最大震度: '
-    _rd3 = '\n・地震の規模: M'
-    _rd4 = '\n・深さ: '
-    _rd5 = '\n・緯度/経度: '
-    _rd6 = '\n・津波情報: '
-    _sw = '。'
-    _eq = re.sub('([ ])', '', d) # 不要なスペースを削除
-    _eq1 = re.sub('(\n\n)','', _eq) # 改行を一括削除
-    _eq2 = _eq1.replace(_r0, _rd0) # 発生時刻を「・発生時刻: 」へ置き換え
-    _eq3 = _eq2.replace(_r1, _rd1) # 震源地を改行してから「・震源地: 」へ置き換え
-    _eq4 = _eq3.replace(_r2, _rd2) # 最大震度を改行してから「・最大震度: 」へ置き換え
-    _eq5 = _eq4.replace(_r3, _rd3) # マグニチュードを改行してから「地震の規模: M」へ置き換え
-    _eq6 = _eq5.replace(_r4, _rd4) # 深さを改行してから「・深さ: 」へ置き換え
-    _eq7 = _eq6.replace(_r5, _rd5) # 緯度/経度を改行してから「・緯度/経度: 」へ置き換え
-    _eq8 = _eq7.replace(_r6, _rd6).split(_sw)[0] # 情報を改行してから「・津波情報: 」へ置き換えて「。」で分割して整形
+    def extract_block(self, html: str):
+        m = re.search(r'<div class="eqDetail[^"]*">(.*?)</div>', html, re.DOTALL)
+        return m.group(1) if m else None
 
-    return _eq8.split('\n') # 改行で分割
+    def clean_text(self, html_fragment: str):
+        text = re.sub(r'<.*?>', '', html_fragment)
+        text = re.sub(r'[ \t]+', ' ', text)
+        text = re.sub(r'\n+', '\n', text)
+
+        return text.strip()
+
+    def extract_data(self, text):
+        pairs = re.findall(r'(\S+?)\s*\n\s*(.+)', text)
+        data_map = {}
+
+        for k, v in pairs:
+            k = k.strip()
+            v = v.strip()
+
+            if "発生時刻" in k:
+                data_map["time"] = v
+            elif "震源地" in k:
+                data_map["place"] = v
+            elif "最大震度" in k:
+                data_map["max_intensity"] = v
+            elif "マグニチュード" in k:
+                m = re.search(r'(\d+\.\d+)', v)
+                data_map["magnitude"] = m.group(1) if m else None
+            elif "深さ" in k:
+                data_map["depth"] = v
+            elif "緯度" in k:
+                data_map["latlon"] = v
+            if "津波" in k:
+                data_map["tsunami"] = v
+            else:
+                data_map["tsunami"] = "この地震による津波の心配はありません"
+        return data_map
+
+    def validate(self, data: dict):
+        required = ["time", "place", "magnitude"]
+
+        return all(data.get(k) for k in required)
+
+    def format_output(self, data: dict):
+        return "\n\n".join([
+            f"・発生時刻: {data['time']}",
+            f"・震源地: {data['place']}",
+            f"・最大震度: {data['max_intensity']}",
+            f"・地震の規模: M{data['magnitude']}",
+            f"・深さ: {data['depth']}",
+            f"・緯度/経度: {data['latlon']}",
+            f"・津波情報: {data['tsunami']}",
+        ])
+
+    def color_formatted_output(self, data: dict):
+        def _text(data):
+            return "\n\n".join([
+            f"・発生時刻: {data['time']}",
+            f"・震源地: {data['place']}",
+            f"・最大震度: {data['max_intensity']}",
+            f"・地震の規模: M{data['magnitude']}",
+            f"・深さ: {data['depth']}",
+            f"・緯度/経度: {data['latlon']}",
+            f"・津波情報: {data['tsunami']}",
+        ])
+        colorama.init()
+        if '1' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.BLACK}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '2' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.BLUE}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '3' == data['max_intensity']:
+            return f'{colorama.Fore.BLACK + colorama.Back.GREEN}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '4' == data['max_intensity']:
+            return f'{colorama.Fore.BLACK + colorama.Back.YELLOW}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '5弱' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.RED}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '5強' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.RED}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '6弱' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.RED}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '6強' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.RED}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+        if '7' == data['max_intensity']:
+            return f'{colorama.Fore.WHITE + colorama.Back.MAGENTA}{_text(data)}{colorama.Fore.RESET + colorama.Back.RESET}'
+
+    def normal(self):
+        print(self.format_output(self.data))
+
+    def colored(self):
+        print(self.color_formatted_output(self.data))
 
 def main():
-    _u = "https://typhoon.yahoo.co.jp/weather/earthquake/" # YahooJapanの地震情報
-    _ua = 'Mozilla/5.0 (Linux; U; Android 8.0; en-la; Nexus Build/JPG991) AppleWebKit/511.2 (KHTML, like Gecko) Version/5.0 Mobile/11S444 YJApp-ANDROID jp.co.yahoo.android.yjtop/4.01.1.5' # Android端末のYahooアプリに偽装
-    _d = urllib.request.urlopen(urllib.request.Request(_u, headers={'User-Agent': _ua})) # 定義したユーザーエージェントに従いURLへアクセス
-    _t = _tg(_d, 'div.eqDetail') # htmlを受け渡し、divタグの「eqDetail」を選択
-    colorama.init() # カラーコードの初期化
+    Earthquake()
 
-    _dq = str(_t)
-    if '<td>1</td>' in _dq: # 震度１なら黒く表示
-        print(colorama.Fore.WHITE + colorama.Back.BLACK)
-    if '<td>2</td>' in _dq: # 震度２なら青く表示
-        print(colorama.Fore.WHITE + colorama.Back.BLUE)
-    if '<td>3</td>' in _dq: # 震度３なら緑に表示
-        print(colorama.Fore.BLACK + colorama.Back.GREEN)
-    if '<td>4</td>' in _dq: # 震度４なら黄色く表示
-        print(colorama.Fore.BLACK + colorama.Back.YELLOW)
-    if '<td>5弱</td>' in _dq: # 震度５弱なら赤く表示
-        print(colorama.Fore.WHITE + colorama.Back.RED)
-    if '<td>5強</td>' in _dq: # 震度５強なら赤く表示
-        print(colorama.Fore.WHITE + colorama.Back.RED)
-    if '<td>6弱</td>' in _dq: # 震度６弱なら赤く表示
-        print(colorama.Fore.WHITE + colorama.Back.RED)
-    if '<td>6強</td>' in _dq: # 震度６強なら赤く表示
-        print(colorama.Fore.WHITE + colorama.Back.RED)
-    if '<td>7</td>' in _dq: # 震度７なら紫色に表示
-        print(colorama.Fore.WHITE + colorama.Back.MAGENTA)
-    print('\n\n'.join(_r(''.join(re.findall('<.+>(.+)<.+>', _t))))) # タグ内の文字列だけを抽出
-    print(colorama.Fore.RESET + colorama.Back.RESET) # 色情報の初期化
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
